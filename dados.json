@@ -1,0 +1,164 @@
+{
+  "biomas": [
+    {
+      "id": 0,
+      "nome": "Centro Urbano em Ruínas",
+      "distanciaInicio": 0,
+      "distanciaFim": 1500,
+      "velocidadeMultiplicador": 1.0,
+      "corFundo": "#2a2a3e",
+      "corPredio": "#5a5a6e",
+      "corRua": "#1a1a2e",
+      "obstaculosDisponiveis": ["barricada", "concreto", "estaca"],
+      "densidade": 0.7,
+      "descricao": "Escapando pela metrópole destruída..."
+    },
+    {
+      "id": 1,
+      "nome": "Favela em Conflito",
+      "distanciaInicio": 1500,
+      "distanciaFim": 3500,
+      "velocidadeMultiplicador": 1.15,
+      "corFundo": "#3d2817",
+      "corPredio": "#8b6f47",
+      "corRua": "#2a1810",
+      "obstaculosDisponiveis": ["barricada", "concreto", "fiacao", "entulho"],
+      "densidade": 0.85,
+      "descricao": "Atravessando territórios precários..."
+    },
+    {
+      "id": 2,
+      "nome": "Fronteira Gelada",
+      "distanciaInicio": 3500,
+      "distanciaFim": 5500,
+      "velocidadeMultiplicador": 1.30,
+      "corFundo": "#1a3a52",
+      "corPredio": "#e8f4f8",
+      "corRua": "#0f2438",
+      "obstaculosDisponiveis": ["concreto", "estaca", "fiacao", "bloco_gelo"],
+      "densidade": 0.9,
+      "descricao": "Cruzando territórios congelados..."
+    },
+    {
+      "id": 3,
+      "nome": "Trincheiras de Guerra",
+      "distanciaInicio": 5500,
+      "distanciaFim": 7500,
+      "velocidadeMultiplicador": 1.45,
+      "corFundo": "#1a1a1a",
+      "corPredio": "#4a4a4a",
+      "corRua": "#0d0d0d",
+      "obstaculosDisponiveis": ["barricada", "fiacao", "entulho", "concreto"],
+      "densidade": 0.95,
+      "descricao": "Fugindo das linhas de frente..."
+    },
+    {
+      "id": 4,
+      "nome": "Deserto de Esperança",
+      "distanciaInicio": 7500,
+      "distanciaFim": Infinity,
+      "velocidadeMultiplicador": 1.60,
+      "corFundo": "#d4a574",
+      "corPredio": "#f4d9a6",
+      "corRua": "#c9a05a",
+      "obstaculosDisponiveis": ["estaca", "entulho", "concreto", "rocha"],
+      "densidade": 0.88,
+      "descricao": "Aproximando-se da liberdade..."
+    }
+  ],
+  "obstaculos": {
+    "barricada": {
+      "altura": 1.5,
+      "largura": 0.8,
+      "profundidade": 0.3,
+      "cor": "#4a4a4a",
+      "dano": 1
+    },
+    "concreto": {
+      "altura": 1.2,
+      "largura": 1.0,
+      "profundidade": 0.4,
+      "cor": "#7a7a7a",
+      "dano": 1
+    },
+    "estaca": {
+      "altura": 1.8,
+      "largura": 0.2,
+      "profundidade": 0.2,
+      "cor": "#3a3a3a",
+      "dano": 1
+    },
+    "fiacao": {
+      "altura": 0.8,
+      "largura": 2.5,
+      "profundidade": 0.1,
+      "cor": "#2a5a2a",
+      "dano": 1
+    },
+    "entulho": {
+      "altura": 1.0,
+      "largura": 0.7,
+      "profundidade": 0.5,
+      "cor": "#6a5a4a",
+      "dano": 1
+    },
+    "bloco_gelo": {
+      "altura": 1.3,
+      "largura": 0.9,
+      "profundidade": 0.3,
+      "cor": "#b0e0e6",
+      "dano": 1
+    },
+    "rocha": {
+      "altura": 1.1,
+      "largura": 0.8,
+      "profundidade": 0.4,
+      "cor": "#8b7355",
+      "dano": 1
+    }
+  },
+  "coletaveis": {
+    "suprimento": {
+      "pontos": 10,
+      "cor": "#ffaa00",
+      "tamanho": 0.3
+    },
+    "ouro": {
+      "pontos": 50,
+      "cor": "#ffd700",
+      "tamanho": 0.25
+    },
+    "energia": {
+      "pontos": 25,
+      "cor": "#00ff00",
+      "tamanho": 0.28
+    }
+  },
+  "loja": {
+    "escudoTemporario": {
+      "nome": "Escudo Temporário",
+      "custo": 100,
+      "descricao": "Protege de 1 colisão"
+    },
+    "velocidadeExtra": {
+      "nome": "Turbo Instantâneo",
+      "custo": 150,
+      "descricao": "Aumenta velocidade por 5 segundos"
+    },
+    "vidaExtra": {
+      "nome": "Kit Médico",
+      "custo": 200,
+      "descricao": "Recupera 1 vida"
+    }
+  },
+  "configuracoes": {
+    "vidasIniciais": 3,
+    "velocidadeInicial": 0.15,
+    "aceleracao": 0.00005,
+    "velocidadeMaxima": 0.35,
+    "gravidade": 0.008,
+    "saltoForce": 0.18,
+    "larguraFaixa": 1.5,
+    "alturaObstaculo": 1.5
+  }
+}
