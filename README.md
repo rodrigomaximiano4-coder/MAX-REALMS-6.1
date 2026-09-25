@@ -1,40 +1,99 @@
-# MAX REALMS 6.0 — TRUE 3D EDITION
+# Fronteira de Ferro: A Fuga
 
-Versão 3D real do projeto MAX REALMS, construída com Three.js.
+Jogo web em estilo Endless Runner 3D, com identidade original e narrativa de fuga transcontinental. O projeto usa HTML5, CSS3, JavaScript puro e Three.js via CDN para funcionar em GitHub Pages sem Node.js nem build step.
 
-## O que mudou
-- renderização 3D real com WebGL
-- câmera em terceira pessoa
-- iluminação dinâmica
-- sombras
-- neblina por reino
-- pista 3D contínua
-- obstáculos volumétricos
-- personagem 3D procedural
-- animação básica de corrida
-- salto e deslize
-- poderes
-- chefes/guardiões 3D
-- 5 reinos
-- partículas/efeitos simples
-- loja de heróis
-- upgrades
-- missões
-- XP, níveis, moedas, troféus e recorde
-- teclado e swipe no celular
-- GitHub Pages compatível
+## Visão geral
 
-## Dependência
-Three.js 0.186.1 carregado via jsDelivr:
-https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js
+- Nome: Fronteira de Ferro: A Fuga
+- Tema: guerra, deslocamento, sobrevivência e travessia de fronteiras em ruínas
+- Estrutura: um único arquivo `index.html` + `dados.json`
+- Deploy: GitHub Pages estático
+- Controles: teclado e toque em mobile
+- Áudio: Web Audio API
 
-A aplicação precisa de conexão à internet para carregar Three.js via CDN.
-Se quiser uma versão 100% offline, baixe o módulo `three.module.js` e ajuste o import map.
+## Estrutura do projeto
 
-## Publicação no GitHub Pages
-1. Extraia o ZIP.
-2. Envie `index.html`, `README.md` e a pasta `assets`.
-3. Ative GitHub Pages em Settings > Pages > Deploy from a branch > main > /(root).
+```text
+.
+├── index.html
+├── dados.json
+├── README.md
+```
 
-## Observação
-Os personagens e cenários são originais e procedurais. Nenhum asset de Temple Run ou Game of Thrones é incluído.
+## Como executar
+
+### Opção 1 - abrir diretamente
+Basta abrir o arquivo `index.html` no navegador.
+
+### Opção 2 - servidor local
+Para testar o carregamento do `dados.json` em ambiente mais próximo do GitHub Pages, execute:
+
+```bash
+python3 -m http.server 8000
+```
+
+Depois acesse:
+
+```text
+http://localhost:8000/
+```
+
+## GitHub Pages
+
+1. Faça push do repositório para GitHub.
+2. Abra as configurações do repositório.
+3. Vá em "Pages".
+4. Em "Build and deployment", selecione:
+   - Source: Deploy from a branch
+   - Branch: `main`
+   - Folder: `/root`
+5. Salve.
+6. A URL pública será algo como:
+
+```text
+https://<seu-usuario>.github.io/<nome-do-repositorio>/
+```
+
+## Arquivo de dados
+
+O arquivo `dados.json` carrega as configurações do jogo via `fetch`:
+
+- biomas e progressão visual
+- multiplicadores de velocidade
+- tipos de obstáculos e coletáveis
+- itens da loja de suprimentos
+- valores padrão de fallback
+
+Se o arquivo falhar, demorar ou não estiver disponível, o jogo usa valores internos seguros para continuar funcionando sem travar.
+
+## Controles
+
+### Teclado
+- Setas ou WASD: mudar de faixa
+- Espaço / ↑ / W: pular
+- ↓ / S: agachar/slide
+
+### Touch
+- Botões na tela para esquerda, centro, direita, pular e agachar.
+
+## Mecânicas principais
+
+- 3 faixas horizontais
+- Pulo com física de gravidade
+- Slide para evitar obstáculos altos
+- Obstáculos temáticos de guerra e destruição
+- Coletáveis de pontos (suprimentos, ouro, energia)
+- Dificuldade progressiva por distância
+- Sistema de vidas, pontuação e distância
+- Mudança dinâmica visual entre biomas
+
+## Observações técnicas
+
+- Three.js carregado via CDN (`https://cdn.jsdelivr.net/...`)
+- Áudio procedural via Web Audio API
+- Sem dependência de arquivos externos `.mp3` ou `.wav`
+- Código em JavaScript puro, compatível com GitHub Pages
+
+## Nota de autoria
+
+A proposta foi desenhada para ser original, com identidade visual e narrativa próprias, sem reutilizar ativos, mecânicas ou elementos diretamente inspirados em franquias existentes.
