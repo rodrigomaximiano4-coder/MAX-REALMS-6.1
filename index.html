@@ -7,16 +7,18 @@
   <title>Fronteira de Ferro: A Fuga</title>
   <style>
     :root {
-      --bg: #0a0d15;
-      --panel: rgba(9, 11, 20, 0.68);
-      --panel-border: rgba(255,255,255,0.14);
-      --text: #eef3ff;
-      --accent: #f5d76e;
+      --bg: #0f1622;
+      --panel: rgba(20, 28, 42, 0.85);
+      --panel-border: rgba(255,255,255,0.22);
+      --text: #f5f8ff;
+      --accent: #ffd84d;
       --danger: #ff6b6b;
       --success: #7ef0a1;
       --shadow: rgba(0,0,0,0.35);
       --cyan: #7ad7ff;
-      --mid: #7c8db8;
+      --mid: #9aabcc;
+      --input-bg: rgba(255,255,255,0.1);
+      --input-border: rgba(255,255,255,0.25);
     }
 
     * { box-sizing: border-box; }
@@ -41,7 +43,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: radial-gradient(circle at top, #1d2f45 0%, #0a0d15 42%);
+      background: radial-gradient(circle at top, #2a4a75 0%, #0f1622 42%);
     }
 
     canvas {
@@ -197,8 +199,8 @@
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 18px;
-      background: rgba(14, 18, 28, 0.88);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(22, 32, 48, 0.95);
+      border: 1px solid rgba(255,255,255,0.16);
       border-radius: 22px;
       box-shadow: 0 26px 62px rgba(0,0,0,0.42);
       overflow: hidden;
@@ -212,8 +214,8 @@
     }
 
     .sidebar-panel {
-      background: linear-gradient(180deg, rgba(28, 36, 52, 0.7), rgba(12, 15, 25, 0.7));
-      border-right: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(42, 58, 82, 0.8), rgba(20, 28, 42, 0.8));
+      border-right: 1px solid rgba(255,255,255,0.1);
     }
 
     .title {
@@ -222,13 +224,14 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent);
+      text-shadow: 0 2px 8px rgba(255, 216, 77, 0.2);
     }
 
     .subtitle {
       margin: 0 0 20px;
       font-size: 0.96rem;
       line-height: 1.7;
-      color: rgba(238,243,255,0.82);
+      color: rgba(245, 248, 255, 0.9);
     }
 
     .form-grid {
@@ -245,43 +248,62 @@
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(238,243,255,0.7);
+      color: rgba(245, 248, 255, 0.85);
     }
 
     .field input,
     .field select {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--input-bg);
+      border: 2px solid var(--input-border);
       border-radius: 10px;
-      color: white;
-      padding: 11px 12px;
-      font-size: 0.96rem;
+      color: #ffffff;
+      padding: 12px 13px;
+      font-size: 0.98rem;
       outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .field input::placeholder,
+    .field select {
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .field input:focus,
     .field select:focus {
-      border-color: rgba(122, 215, 255, 0.7);
-      box-shadow: 0 0 0 2px rgba(122,215,255,0.14);
+      border-color: #7ad7ff;
+      background: rgba(122, 215, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(122, 215, 255, 0.2);
+    }
+
+    .field input:valid {
+      border-color: rgba(126, 240, 161, 0.6);
     }
 
     .primary-btn {
       appearance: none;
       border: none;
-      background: linear-gradient(135deg, #f5d76e, #f09b45);
-      color: #17120a;
+      background: linear-gradient(135deg, #ffd84d, #ffb84d);
+      color: #1a1410;
       font-weight: 800;
       border-radius: 12px;
       padding: 12px 18px;
-      box-shadow: 0 12px 22px rgba(245, 215, 110, 0.2);
+      box-shadow: 0 12px 28px rgba(255, 216, 77, 0.3);
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-size: 0.78rem;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .primary-btn:active { transform: scale(0.98); }
+    .primary-btn:active { 
+      transform: scale(0.98);
+      box-shadow: 0 6px 14px rgba(255, 216, 77, 0.2);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     .leaderboard-panel {
       display: flex;
@@ -326,7 +348,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: rgba(245, 215, 110, 0.15);
+      background: rgba(255, 216, 77, 0.15);
       color: var(--accent);
       font-weight: 700;
     }
@@ -343,7 +365,7 @@
     }
 
     .player-country {
-      color: rgba(238,243,255,0.65);
+      color: rgba(245, 248, 255, 0.75);
       font-size: 0.7rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -463,7 +485,7 @@
 
     .gameover-card p {
       margin: 0 0 18px;
-      color: rgba(238,243,255,0.82);
+      color: rgba(245, 248, 255, 0.9);
       line-height: 1.5;
       font-size: 0.95rem;
     }
@@ -472,15 +494,15 @@
       appearance: none;
       border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, #f5d76e, #f09b45);
-      color: #16120b;
+      background: linear-gradient(135deg, #ffd84d, #ffb84d);
+      color: #1a1410;
       font-size: 0.8rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 800;
       padding: 12px 20px;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(245, 215, 110, 0.25);
+      box-shadow: 0 10px 24px rgba(255, 216, 77, 0.3);
     }
 
     @media (max-width: 860px) {
@@ -544,12 +566,13 @@
             <div class="form-grid">
               <label class="field">
                 Nome do corredor
-                <input id="playerName" type="text" maxlength="18" placeholder="Ex.: Mara" value="Mara" />
+                <input id="playerName" type="text" maxlength="18" placeholder="Ex.: Mara" value="Mara" required />
               </label>
               <label class="field">
                 País
-                <select id="playerCountry">
-                  <option value="Brasil">Brasil</option>
+                <select id="playerCountry" required>
+                  <option value="">Selecione um país</option>
+                  <option value="Brasil" selected>Brasil</option>
                   <option value="Argentina">Argentina</option>
                   <option value="Chile">Chile</option>
                   <option value="Colômbia">Colômbia</option>
@@ -615,7 +638,7 @@
         { id: 0, nome: 'Centro Urbano em Ruínas', distanciaInicio: 0, distanciaFim: 1500, velocidadeMultiplicador: 1.0, corFundo: '#2a2a3e', obstaculosDisponiveis: ['barricada', 'concreto', 'estaca'] },
         { id: 1, nome: 'Favela em Conflito', distanciaInicio: 1500, distanciaFim: 3500, velocidadeMultiplicador: 1.15, corFundo: '#3d2817', obstaculosDisponiveis: ['barricada', 'concreto', 'fiacao', 'entulho'] },
         { id: 2, nome: 'Fronteira Gelada', distanciaInicio: 3500, distanciaFim: 5500, velocidadeMultiplicador: 1.3, corFundo: '#1a3a52', obstaculosDisponiveis: ['concreto', 'estaca', 'fiacao'] },
-        { id: 3, nome: 'Trincheiras de Guerra', distanciaInicio: 5500, distanciaFim: 7500, velocidadeMultiplicador: 1.45, corFundo: '#1a1a1a', obstaculosDisponiveis: ['barricada', 'fiacao', 'entulho'] },
+        { id: 3, nome: 'Trincheiras de Guerra', distanciaInicio: 5500, distanciaFim: 7500, velocidadeMultiplicador: 1.45, corFundo: '#1a1a1a', obstaculosDisponiveis: ['barricada', 'fiacao', 'entulho', 'concreto'] },
         { id: 4, nome: 'Deserto de Esperança', distanciaInicio: 7500, distanciaFim: Infinity, velocidadeMultiplicador: 1.6, corFundo: '#d4a574', obstaculosDisponiveis: ['estaca', 'entulho', 'concreto'] }
       ],
       configuracoes: {
@@ -691,7 +714,7 @@
       const data = readLeaderboard();
       const list = document.getElementById('leaderboardList');
       const records = (data.records || []).slice(0, 5);
-      list.innerHTML = records.length ? '' : '<li class="leaderboard-item"><span class="rank">-</span><span class="player-meta"><span class="player-name">Ainda sem registros</span><span class="player-country">Primeiro corredor</span></span><span class="score-pill">0</span></li>';
+      list.innerHTML = records.length ? '' : '<li class="leaderboard-item"><span class="rank">-</span><span class="player-meta"><span class="player-name">Ainda sem registros</span><span class="player-country">Comece sua jornada</span></span></li>';
       records.forEach((entry, index) => {
         const item = document.createElement('li');
         item.className = 'leaderboard-item';
@@ -709,7 +732,10 @@
 
     function renderPhaseMap() {
       const data = readLeaderboard();
-      const player = gameState.currentPlayer || data.players && data.players[sessionKeyFromCurrentInput()] || null;
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = gameState.currentPlayer || (data.players && data.players[key]) || null;
       const phaseList = document.getElementById('phaseList');
       const map = document.getElementById('phaseMap');
       phaseList.innerHTML = '';
@@ -720,7 +746,6 @@
         const item = document.createElement('div');
         const isActive = gameState.currentBiomeIndex === index || (gameState.hasStarted && gameState.distance >= bioma.distanciaInicio && gameState.distance < (bioma.distanciaFim || Infinity));
         const isDone = index < unlocked - 1 || (player && gameState.distance >= bioma.distanciaFim && index <= player.unlockedStages - 1);
-        const current = index < unlocked ? 'done' : 'locked';
         item.className = `phase-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`;
         item.innerHTML = `
           <span class="phase-dot"></span>
@@ -737,7 +762,7 @@
     }
 
     function sessionKeyFromCurrentInput() {
-      const name = document.getElementById('playerName').value.trim();
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
       const country = document.getElementById('playerCountry').value || 'Brasil';
       const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
       return key;
@@ -910,7 +935,7 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      renderer.setClearColor('#0a0d15', 0);
+      renderer.setClearColor('#0f1622', 0);
       document.getElementById('game-root').appendChild(renderer.domElement);
 
       const ambient = new THREE.HemisphereLight(0xcfe4ff, 0x171c2d, 1.1);
@@ -998,466 +1023,148 @@
       group.add(helmet);
 
       const armGeo = new THREE.BoxGeometry(0.16, 0.68, 0.16);
-      const armL = new THREE.Mesh(armGeo, new THREE.MeshStandardMaterial({ color: 0xf0c29b }));
-      armL.position.set(-0.49, 1.14, 0);
+      const armMat = new THREE.MeshStandardMaterial({ color: 0xf4d480, metalness: 0.12, roughness: 0.45 });
+      const armL = new THREE.Mesh(armGeo, armMat);
+      armL.position.set(-0.52, 1.35, 0);
       armL.castShadow = true;
       group.add(armL);
 
-      const armR = armL.clone();
-      armR.position.x = 0.49;
+      const armR = new THREE.Mesh(armGeo, armMat);
+      armR.position.set(0.52, 1.35, 0);
+      armR.castShadow = true;
       group.add(armR);
 
-      const legGeo = new THREE.BoxGeometry(0.22, 0.7, 0.22);
-      const legL = new THREE.Mesh(legGeo, new THREE.MeshStandardMaterial({ color: 0x20304d }));
-      legL.position.set(-0.15, 0.35, 0);
+      const legGeo = new THREE.BoxGeometry(0.18, 0.72, 0.18);
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x2a2a4a, metalness: 0.08, roughness: 0.6 });
+      const legL = new THREE.Mesh(legGeo, legMat);
+      legL.position.set(-0.3, 0.44, 0);
       legL.castShadow = true;
       group.add(legL);
 
-      const legR = legL.clone();
-      legR.position.x = 0.15;
+      const legR = new THREE.Mesh(legGeo, legMat);
+      legR.position.set(0.3, 0.44, 0);
+      legR.castShadow = true;
       group.add(legR);
 
-      group.position.set(0, 0.85, 0);
+      group.position.set(0, 0, 2);
+      group.castShadow = true;
       world.scene.add(group);
       world.player = group;
     }
 
-    function getBiomeAtDistance(distance) {
-      let resolved = config.biomas[0];
-      for (const biome of config.biomas) {
-        const start = biome.distanciaInicio || 0;
-        const end = biome.distanciaFim || Infinity;
-        if (distance >= start && distance < end) {
-          resolved = biome;
-          break;
-        }
+    function getBiomeAtDistance(dist) {
+      for (let bioma of config.biomas) {
+        if (dist >= bioma.distanciaInicio && dist < bioma.distanciaFim) return bioma;
       }
-      return resolved;
-    }
-
-    function updateHud() {
-      document.getElementById('scoreValue').textContent = Math.floor(gameState.score);
-      document.getElementById('distanceValue').textContent = Math.floor(gameState.distance) + ' m';
-      document.getElementById('livesValue').textContent = gameState.lives;
-
-      const biome = getBiomeAtDistance(gameState.distance);
-      if (biome) {
-        document.getElementById('biomeValue').textContent = biome.nome;
-        const color = biome.corFundo || '#2a2a3e';
-        document.body.style.background = color;
-        if (world.renderer) world.renderer.setClearColor(color, 0);
-      }
+      return config.biomas[config.biomas.length - 1];
     }
 
     function updatePhaseMapForLiveGame() {
-      const mapContainer = document.getElementById('phaseMap');
-      mapContainer.innerHTML = '';
-      const unlocked = Math.max(1, Math.min(config.biomas.length, 1 + Math.floor(gameState.distance / 1500)));
-
+      const map = document.getElementById('phaseMap');
+      map.innerHTML = '';
       config.biomas.forEach((bioma, index) => {
         const item = document.createElement('div');
-        const isActive = gameState.currentBiomeIndex === index || (gameState.distance >= bioma.distanciaInicio && gameState.distance < (bioma.distanciaFim || Infinity));
-        const isDone = index < unlocked - 1;
+        const isActive = gameState.currentBiomeIndex === index;
+        const isDone = index < gameState.currentBiomeIndex;
         item.className = `phase-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`;
         item.innerHTML = `
           <span class="phase-dot"></span>
           <span>${bioma.nome}</span>
           <span>${Math.floor(bioma.distanciaInicio / 100)}km</span>
         `;
-        mapContainer.appendChild(item);
+        map.appendChild(item);
       });
     }
 
-    function startGame() {
-      if (gameState.hasStarted || gameState.isGameOver) return;
-      gameState.hasStarted = true;
-      document.getElementById('startCard').classList.add('hidden');
-      initAudio();
-      startMusicLoop();
-      registerCurrentPlayer();
-      refreshPhaseMapForCurrentPlayer();
+    function updateHud() {
+      document.getElementById('scoreValue').textContent = Math.floor(gameState.score);
+      document.getElementById('distanceValue').textContent = Math.floor(gameState.distance) + ' m';
+      document.getElementById('livesValue').textContent = gameState.lives;
+      const bioma = getBiomeAtDistance(gameState.distance || 0);
+      document.getElementById('biomeValue').textContent = bioma.nome;
     }
 
-    function restartGame() {
-      gameState.score = 0;
-      gameState.distance = 0;
-      gameState.lives = config.configuracoes.vidasIniciais || 3;
-      gameState.currentBiomeIndex = 0;
-      gameState.currentSpeed = config.configuracoes.velocidadeInicial || 0.15;
-      gameState.playerLane = 1;
-      gameState.playerY = 0;
-      gameState.verticalVelocity = 0;
-      gameState.grounded = true;
-      gameState.sliding = false;
-      gameState.invulnerable = 0;
-      gameState.spawnTimer = 0;
-      gameState.pickupTimer = 0;
-      gameState.isGameOver = false;
-      gameState.hasStarted = true;
-      gameState.lastCheckpoint = 0;
-      document.getElementById('gameoverPanel').classList.remove('active');
-      document.getElementById('startCard').classList.add('hidden');
-      initAudio();
-      startMusicLoop();
-      updateHud();
-      renderPhaseMap();
+    function animate() {
+      requestAnimationFrame(animate);
 
-      for (const obs of world.obstacles) world.scene.remove(obs.mesh);
-      for (const p of world.pickups) world.scene.remove(p.mesh);
-      world.obstacles = [];
-      world.pickups = [];
-      createPlayer();
-    }
+      const now = performance.now();
+      let deltaTime = 16;
+      if (gameState.lastTimestamp) deltaTime = now - gameState.lastTimestamp;
+      gameState.lastTimestamp = now;
 
-    function spawnObstacle() {
-      const biome = getBiomeAtDistance(gameState.distance);
-      const choices = biome.obstaculosDisponiveis || ['barricada', 'concreto'];
-      const kind = choices[Math.floor(Math.random() * choices.length)];
-      const lane = Math.floor(Math.random() * 3);
-      const z = -60 - Math.random() * 20;
+      if (gameState.hasStarted && !gameState.isGameOver) {
+        const bioma = getBiomeAtDistance(gameState.distance || 0);
+        gameState.worldSpeed = config.configuracoes.velocidadeInicial * bioma.velocidadeMultiplicador;
+        gameState.distance += gameState.worldSpeed * deltaTime / 1000;
+        gameState.score += Math.floor(gameState.distance * 0.05);
 
-      let geo, color, y;
-      if (kind === 'fiacao') {
-        geo = new THREE.BoxGeometry(1.6, 0.12, 0.12);
-        color = 0x6b9d5a;
-        y = 1.7;
-      } else if (kind === 'estaca') {
-        geo = new THREE.BoxGeometry(0.22, 1.7, 0.22);
-        color = 0x2e3038;
-        y = 0.86;
-      } else if (kind === 'entulho') {
-        geo = new THREE.BoxGeometry(0.9, 0.8, 0.7);
-        color = 0x6b5849;
-        y = 0.5;
-      } else if (kind === 'concreto') {
-        geo = new THREE.BoxGeometry(1.0, 1.2, 0.48);
-        color = 0x697684;
-        y = 0.6;
-      } else {
-        geo = new THREE.BoxGeometry(1.1, 1.15, 0.38);
-        color = 0x404a55;
-        y = 0.55;
-      }
-
-      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color, roughness: 0.85, metalness: 0.1 }));
-      mesh.position.set(lanePositions[lane], y, z);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      world.scene.add(mesh);
-      world.obstacles.push({ mesh, type: kind, z, lane });
-    }
-
-    function spawnPickup() {
-      const lane = Math.floor(Math.random() * 3);
-      const z = -55 - Math.random() * 18;
-      const roll = Math.random();
-      let type = 'suprimento';
-      if (roll > 0.8) type = 'ouro';
-      else if (roll > 0.45) type = 'energia';
-
-      const colors = { suprimento: 0xffa000, ouro: 0xffd400, energia: 0x35d96d };
-      const values = { suprimento: 10, ouro: 50, energia: 25 };
-
-      const mesh = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.27, 0),
-        new THREE.MeshStandardMaterial({
-          color: colors[type],
-          emissive: colors[type],
-          emissiveIntensity: 0.25,
-          metalness: 0.35,
-          roughness: 0.28
-        })
-      );
-      mesh.position.set(lanePositions[lane], 1, z);
-      mesh.castShadow = true;
-      world.scene.add(mesh);
-      world.pickups.push({ mesh, type, value: values[type], z });
-    }
-
-    function saveRuntimeProgress() {
-      const data = readLeaderboard();
-      const name = document.getElementById('playerName').value.trim() || 'Jogador';
-      const country = document.getElementById('playerCountry').value || 'Brasil';
-      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
-      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
-      player.name = name;
-      player.country = country;
-      player.lastDistance = Math.max(player.lastDistance || 0, gameState.distance || 0);
-      player.bestScore = Math.max(player.bestScore || 0, gameState.score || 0);
-      player.bestDistance = Math.max(player.bestDistance || 0, gameState.distance || 0);
-      const currentStage = Math.max(1, Math.min(config.biomas.length, 1 + Math.floor((gameState.distance || 0) / 1500)));
-      player.unlockedStages = Math.max(player.unlockedStages || 1, currentStage);
-      data.players[key] = player;
-      saveLeaderboard(data);
-      renderPhaseMap();
-      renderLeaderboard();
-    }
-
-    function completeRun() {
-      const data = readLeaderboard();
-      const name = document.getElementById('playerName').value.trim() || 'Jogador';
-      const country = document.getElementById('playerCountry').value || 'Brasil';
-      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
-      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
-      player.name = name;
-      player.country = country;
-      player.bestScore = Math.max(player.bestScore || 0, gameState.score || 0);
-      player.bestDistance = Math.max(player.bestDistance || 0, gameState.distance || 0);
-      player.unlockedStages = Math.max(player.unlockedStages || 1, config.biomas.length);
-      data.players[key] = player;
-
-      const record = { name, country, score: player.bestScore, distance: player.bestDistance };
-      const records = [...(data.records || [])];
-      const idx = records.findIndex(r => r.name === name && r.country === country);
-      if (idx >= 0) records[idx] = record; else records.push(record);
-      records.sort((a, b) => (b.score || 0) - (a.score || 0));
-      data.records = records.slice(0, 10);
-      saveLeaderboard(data);
-      renderLeaderboard();
-      renderPhaseMap();
-    }
-
-    function updateWorld(delta) {
-      if (!gameState.hasStarted || gameState.isGameOver) return;
-
-      const biome = getBiomeAtDistance(gameState.distance);
-      gameState.currentBiomeIndex = biome.id;
-      const biomeMult = biome.velocidadeMultiplicador || 1;
-
-      gameState.currentSpeed = clamp(
-        gameState.currentSpeed + (config.configuracoes.aceleracao || 0.00005) * delta * 120,
-        config.configuracoes.velocidadeInicial || 0.15,
-        config.configuracoes.velocidadeMaxima || 0.35
-      );
-
-      gameState.worldSpeed = gameState.currentSpeed * biomeMult;
-      gameState.distance += gameState.worldSpeed * delta * 200;
-
-      if (gameState.distance > 0 && Math.floor(gameState.distance / 1500) !== gameState.lastCheckpoint) {
-        gameState.lastCheckpoint = Math.floor(gameState.distance / 1500);
-        saveRuntimeProgress();
-      }
-
-      const gravity = config.configuracoes.gravidade || 0.008;
-      gameState.verticalVelocity -= gravity * delta * 60;
-      gameState.playerY += gameState.verticalVelocity * delta * 60;
-
-      if (gameState.playerY <= 0) {
-        gameState.playerY = 0;
-        gameState.verticalVelocity = 0;
-        gameState.grounded = true;
-      } else {
-        gameState.grounded = false;
-      }
-
-      if (world.player) {
-        world.player.position.x = THREE.MathUtils.lerp(world.player.position.x, lanePositions[gameState.playerLane], 0.16);
-        world.player.position.y = gameState.playerY;
-        if (gameState.sliding) {
-          world.player.scale.y = 0.5;
-          world.player.position.y = 0.5;
-        } else {
-          world.player.scale.y = 1;
+        const newBiomeIndex = config.biomas.findIndex(b => gameState.distance >= b.distanciaInicio && gameState.distance < b.distanciaFim);
+        if (newBiomeIndex >= 0 && newBiomeIndex !== gameState.currentBiomeIndex) {
+          gameState.currentBiomeIndex = newBiomeIndex;
+          updatePhaseMapForLiveGame();
         }
 
-        if (gameState.invulnerable > 0) {
-          world.player.traverse(obj => {
-            if (obj.material && obj.material.emissive) {
-              obj.material.emissive.set(Math.sin(performance.now() * 0.02) > 0 ? 0xffa000 : 0x000000);
-            }
-          });
-        } else {
-          world.player.traverse(obj => {
-            if (obj.material && obj.material.emissive) {
-              obj.material.emissive.set(0x000000);
-            }
-          });
-        }
+        updateHud();
       }
 
-      for (const obs of world.obstacles) {
-        obs.z += gameState.worldSpeed * delta * 120;
-        obs.mesh.position.z = obs.z;
-        if (obs.z > 10) world.scene.remove(obs.mesh);
-      }
-      world.obstacles = world.obstacles.filter(obs => obs.z <= 10);
-
-      for (const pickup of world.pickups) {
-        pickup.z += gameState.worldSpeed * delta * 120;
-        pickup.mesh.position.z = pickup.z;
-        pickup.mesh.rotation.y += delta * 2.5;
-        pickup.mesh.position.y = 1 + Math.sin((gameState.distance + pickup.z) * 0.08) * 0.25;
-        if (pickup.z > 10) world.scene.remove(pickup.mesh);
-      }
-      world.pickups = world.pickups.filter(p => p.z <= 10);
-
-      gameState.spawnTimer -= delta;
-      if (gameState.spawnTimer <= 0) {
-        spawnObstacle();
-        gameState.spawnTimer = 0.9 - gameState.worldSpeed * 1.1 + Math.random() * 0.5;
-      }
-
-      gameState.pickupTimer -= delta;
-      if (gameState.pickupTimer <= 0) {
-        spawnPickup();
-        gameState.pickupTimer = 1.4 + Math.random() * 1.8;
-      }
-
-      handleCollisions();
-
-      for (const b of world.buildings) {
-        b.mesh.position.z += gameState.worldSpeed * delta * 78;
-        if (b.mesh.position.z > 14) {
-          b.mesh.position.z = b.originalZ;
-          b.mesh.position.x = (Math.random() > 0.5 ? 1 : -1) * (4.6 + Math.random() * 3.2);
-        }
-      }
-
-      gameState.invulnerable = Math.max(0, gameState.invulnerable - delta);
-      updateHud();
-      updatePhaseMapForLiveGame();
-    }
-
-    function handleCollisions() {
-      const playerX = lanePositions[gameState.playerLane];
-      const playerZ = 0;
-
-      for (const obs of world.obstacles) {
-        const dx = Math.abs(obs.mesh.position.x - playerX);
-        const dz = Math.abs(obs.mesh.position.z - playerZ);
-        if (dz < 0.8 && dx < 0.9) {
-          if (obs.type === 'fiacao' && !gameState.sliding) {
-            hitPlayer();
-          } else {
-            const playerTop = gameState.playerY + (gameState.sliding ? 0.5 : 1.0);
-            const obstacleTop = obs.mesh.position.y + 0.7;
-            if (playerTop < obstacleTop + 0.1) hitPlayer();
-          }
-        }
-      }
-
-      for (const pickup of world.pickups) {
-        const dx = Math.abs(pickup.mesh.position.x - playerX);
-        const dz = Math.abs(pickup.mesh.position.z - playerZ);
-        if (dz < 0.9 && dx < 0.7) {
-          gameState.score += pickup.value;
-          sfxPickup();
-          world.scene.remove(pickup.mesh);
-          pickup.mesh.visible = false;
-        }
-      }
-
-      world.pickups = world.pickups.filter(item => item.mesh.visible !== false);
-    }
-
-    function hitPlayer() {
-      if (gameState.invulnerable > 0 || gameState.isGameOver) return;
-      gameState.lives -= 1;
-      gameState.invulnerable = 1.1;
-      sfxHit();
-      updateHud();
-
-      if (gameState.lives <= 0) {
-        gameState.isGameOver = true;
-        completeRun();
-        document.getElementById('resultText').textContent = `Pontuação final: ${Math.floor(gameState.score)} • Distância: ${Math.floor(gameState.distance)} m`;
-        document.getElementById('gameoverPanel').classList.add('active');
-        stopMusicLoop();
-      }
-    }
-
-    function jump() {
-      if (!gameState.hasStarted) startGame();
-      if (!gameState.grounded || gameState.isGameOver) return;
-      gameState.verticalVelocity = config.configuracoes.saltoForce || 0.18;
-      gameState.grounded = false;
-      gameState.sliding = false;
-      sfxJump();
-    }
-
-    function slide() {
-      if (!gameState.hasStarted) startGame();
-      if (gameState.isGameOver || !gameState.grounded) return;
-      gameState.sliding = true;
-      setTimeout(() => { gameState.sliding = false; }, 560);
-      sfxSlide();
-    }
-
-    function setLane(value) {
-      const next = clamp(value, 0, 2);
-      if (next !== gameState.playerLane) {
-        gameState.playerLane = next;
-        sfxMove();
-      }
-    }
-
-    document.addEventListener('keydown', (event) => {
-      const key = event.key.toLowerCase();
-      if (event.key === 'ArrowLeft' || key === 'a') setLane(gameState.playerLane - 1);
-      if (event.key === 'ArrowRight' || key === 'd') setLane(gameState.playerLane + 1);
-      if (event.key === 'ArrowUp' || key === 'w' || event.key === ' ' || key === 'spacebar') jump();
-      if (event.key === 'ArrowDown' || key === 's') slide();
-    });
-
-    document.querySelectorAll('.lane-btn').forEach((btn) => {
-      btn.addEventListener('click', () => setLane(Number(btn.dataset.lane)));
-    });
-
-    document.getElementById('jumpBtn').addEventListener('click', jump);
-    document.getElementById('slideBtn').addEventListener('click', slide);
-    document.getElementById('restartBtn').addEventListener('click', restartGame);
-    document.getElementById('startBtn').addEventListener('click', () => {
-      registerCurrentPlayer();
-      startGame();
-    });
-
-    document.getElementById('playerName').addEventListener('input', () => {
-      registerCurrentPlayer();
-      refreshPhaseMapForCurrentPlayer();
-    });
-
-    document.getElementById('playerCountry').addEventListener('change', () => {
-      registerCurrentPlayer();
-      refreshPhaseMapForCurrentPlayer();
-    });
-
-    document.addEventListener('pointerdown', () => {
-      if (!gameState.hasStarted && !gameState.isGameOver) startGame();
-    }, { passive: true });
-
-    function tick(timestamp) {
-      const delta = Math.min((timestamp - (gameState.lastTimestamp || timestamp)) / 1000 || 0.016, 0.033);
-      gameState.lastTimestamp = timestamp;
-      updateWorld(delta);
-      if (world.renderer && world.camera && world.scene) {
+      if (world.renderer) {
         world.renderer.render(world.scene, world.camera);
       }
-      requestAnimationFrame(tick);
     }
 
-    function resize() {
-      if (!world.camera || !world.renderer) return;
-      world.camera.aspect = window.innerWidth / window.innerHeight;
-      world.camera.updateProjectionMatrix();
-      world.renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    window.addEventListener('resize', resize);
-
-    async function init() {
+    document.addEventListener('DOMContentLoaded', async () => {
       await loadConfig();
-      setupScene();
       applyLeaderboardToMenu();
-      updateHud();
-      requestAnimationFrame(tick);
-    }
 
-    const pollThree = setInterval(() => {
-      if (window.THREE) {
-        clearInterval(pollThree);
-        init();
-      }
-    }, 40);
+      document.getElementById('startBtn').addEventListener('click', () => {
+        const playerName = document.getElementById('playerName').value.trim();
+        const playerCountry = document.getElementById('playerCountry').value;
+
+        if (!playerName) {
+          alert('Por favor, digite seu nome.');
+          return;
+        }
+
+        if (!playerCountry || playerCountry === '') {
+          alert('Por favor, selecione um país.');
+          return;
+        }
+
+        initAudio();
+        registerCurrentPlayer();
+        gameState.hasStarted = true;
+        gameState.isGameOver = false;
+        document.getElementById('startCard').classList.add('hidden');
+        setupScene();
+        startMusicLoop();
+        animate();
+      });
+
+      document.getElementById('restartBtn').addEventListener('click', () => {
+        gameState.score = 0;
+        gameState.distance = 0;
+        gameState.lives = 3;
+        gameState.hasStarted = false;
+        gameState.isGameOver = false;
+        gameState.currentBiomeIndex = 0;
+        document.getElementById('gameoverPanel').classList.remove('active');
+        document.getElementById('startCard').classList.remove('hidden');
+        if (world.renderer) world.renderer.domElement.remove();
+        world.renderer = null;
+        applyLeaderboardToMenu();
+      });
+
+      document.getElementById('playerName').addEventListener('input', () => {
+        refreshPhaseMapForCurrentPlayer();
+      });
+
+      document.getElementById('playerCountry').addEventListener('change', () => {
+        refreshPhaseMapForCurrentPlayer();
+      });
+
+      setupScene();
+      animate();
+    });
   </script>
 </body>
 </html>
