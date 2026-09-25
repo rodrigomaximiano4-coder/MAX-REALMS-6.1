@@ -15,6 +15,8 @@
       --danger: #ff6b6b;
       --success: #7ef0a1;
       --shadow: rgba(0,0,0,0.35);
+      --cyan: #7ad7ff;
+      --mid: #7c8db8;
     }
 
     * { box-sizing: border-box; }
@@ -31,9 +33,7 @@
       touch-action: none;
     }
 
-    body {
-      transition: background 0.5s ease;
-    }
+    body { transition: background 0.5s ease; }
 
     #game-root {
       position: absolute;
@@ -80,7 +80,7 @@
     }
 
     .stats {
-      min-width: 200px;
+      min-width: 220px;
     }
 
     .stats-row {
@@ -93,10 +93,7 @@
       margin: 3px 0;
     }
 
-    .value {
-      color: var(--accent);
-      font-weight: 700;
-    }
+    .value { color: var(--accent); font-weight: 700; }
 
     .biome {
       min-width: 220px;
@@ -107,6 +104,68 @@
       line-height: 1.4;
     }
 
+    .phase-map-wrap {
+      position: absolute;
+      right: 16px;
+      top: 130px;
+      width: min(260px, 36vw);
+      pointer-events: auto;
+    }
+
+    .phase-map {
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .phase-map h3 {
+      margin: 0 0 3px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .phase-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .phase-item.active {
+      background: rgba(122, 215, 255, 0.12);
+      border-color: rgba(122, 215, 255, 0.35);
+      color: #dff8ff;
+    }
+
+    .phase-item.done {
+      background: rgba(126, 240, 161, 0.08);
+      border-color: rgba(126, 240, 161, 0.2);
+    }
+
+    .phase-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+
+    .phase-item.active .phase-dot,
+    .phase-item.done .phase-dot {
+      background: var(--success);
+    }
+
     .center-card {
       position: absolute;
       inset: 0;
@@ -114,7 +173,7 @@
       align-items: center;
       justify-content: center;
       z-index: 30;
-      background: rgba(8, 10, 18, 0.24);
+      background: rgba(8, 10, 18, 0.26);
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
@@ -124,39 +183,196 @@
       pointer-events: none;
     }
 
-    .message-box {
-      width: min(90vw, 460px);
-      padding: 28px 30px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(12, 16, 26, 0.9);
-      text-align: center;
-      box-shadow: 0 24px 52px rgba(0,0,0,0.5);
-      pointer-events: auto;
+    .menu-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
     }
 
-    .message-box h1 {
-      margin: 0 0 8px;
-      font-size: clamp(2rem, 4vw, 3.2rem);
+    .login-box {
+      width: min(96vw, 980px);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      background: rgba(14, 18, 28, 0.88);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      box-shadow: 0 26px 62px rgba(0,0,0,0.42);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .sidebar-panel,
+    .leaderboard-panel {
+      padding: 24px 22px;
+    }
+
+    .sidebar-panel {
+      background: linear-gradient(180deg, rgba(28, 36, 52, 0.7), rgba(12, 15, 25, 0.7));
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .title {
+      margin: 0 0 18px;
+      font-size: clamp(2.1rem, 3vw, 3.3rem);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent);
     }
 
-    .message-box p {
-      margin: 0;
-      line-height: 1.6;
-      color: rgba(238,243,255,0.85);
-      font-size: 0.95rem;
+    .subtitle {
+      margin: 0 0 20px;
+      font-size: 0.96rem;
+      line-height: 1.7;
+      color: rgba(238,243,255,0.82);
     }
 
-    .hint {
-      display: inline-block;
-      margin-top: 18px;
-      color: var(--success);
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: rgba(238,243,255,0.7);
+    }
+
+    .field input,
+    .field select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: white;
+      padding: 11px 12px;
+      font-size: 0.96rem;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(122, 215, 255, 0.7);
+      box-shadow: 0 0 0 2px rgba(122,215,255,0.14);
+    }
+
+    .primary-btn {
+      appearance: none;
+      border: none;
+      background: linear-gradient(135deg, #f5d76e, #f09b45);
+      color: #17120a;
+      font-weight: 800;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 12px 22px rgba(245, 215, 110, 0.2);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.78rem;
+      transition: transform 0.15s ease;
+    }
+
+    .primary-btn:active { transform: scale(0.98); }
+
+    .leaderboard-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .leaderboard-panel h3,
+    .phase-box h3 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .leaderboard-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .leaderboard-item {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.8rem;
+    }
+
+    .rank {
+      display: inline-flex;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(245, 215, 110, 0.15);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .player-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .player-name {
+      font-weight: 700;
+      color: white;
+    }
+
+    .player-country {
+      color: rgba(238,243,255,0.65);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .score-pill {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    .phase-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .phase-box .phase-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .phase-box .phase-item {
+      padding: 8px 10px;
+      font-size: 9.5px;
+      letter-spacing: 0.08em;
     }
 
     .controls {
@@ -267,6 +483,18 @@
       box-shadow: 0 10px 24px rgba(245, 215, 110, 0.25);
     }
 
+    @media (max-width: 860px) {
+      .login-box {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .phase-map-wrap {
+        right: 12px;
+        top: 126px;
+        width: min(200px, 38vw);
+      }
+    }
+
     @media (max-width: 640px) {
       .topbar {
         top: 12px;
@@ -274,35 +502,15 @@
         right: 12px;
       }
 
-      .stats {
-        min-width: 170px;
-      }
-
-      .stats-row {
-        font-size: 10px;
-        letter-spacing: 0.06em;
-      }
-
-      .biome {
-        min-width: 140px;
-        font-size: 9px;
-      }
-
-      .controls {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-      }
-
-      .lane-btn {
-        width: 54px;
-        height: 42px;
-      }
-
-      .action-btn {
-        width: 50px;
-        height: 50px;
-      }
+      .stats { min-width: 170px; }
+      .stats-row { font-size: 10px; letter-spacing: 0.06em; }
+      .biome { min-width: 150px; font-size: 9px; }
+      .phase-map-wrap { display: none; }
+      .controls { left: 12px; right: 12px; bottom: 12px; }
+      .lane-btn { width: 54px; height: 42px; }
+      .action-btn { width: 50px; height: 50px; }
+      .login-box { padding: 0; }
+      .form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -319,11 +527,62 @@
       <div class="panel biome" id="biomeValue">Centro Urbano em Ruínas</div>
     </div>
 
-    <div class="center-card" id="startCard">
-      <div class="message-box">
-        <h1>Fronteira de Ferro</h1>
-        <p>Fuja das linhas de frente, mantenha o ritmo e alcance a liberdade no caminho entre ruínas, fronteiras e deserto.</p>
-        <span class="hint">Pressione espaço / toque para começar</span>
+    <div class="phase-map-wrap panel phase-map" id="phaseMapWrap">
+      <h3>Mapa de fases</h3>
+      <div id="phaseMap"></div>
+    </div>
+
+    <div id="startCard" class="center-card">
+      <div class="menu-screen">
+        <div class="login-box">
+          <div class="sidebar-panel">
+            <h1 class="title">Fronteira de Ferro</h1>
+            <p class="subtitle">
+              Seja bem-vindo à fuga transcontinental. Informe sua identidade, veja os recordes e inicie sua travessia pelas fronteiras destruídas.
+            </p>
+
+            <div class="form-grid">
+              <label class="field">
+                Nome do corredor
+                <input id="playerName" type="text" maxlength="18" placeholder="Ex.: Mara" value="Mara" />
+              </label>
+              <label class="field">
+                País
+                <select id="playerCountry">
+                  <option value="Brasil">Brasil</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Colômbia">Colômbia</option>
+                  <option value="México">México</option>
+                  <option value="Portugal">Portugal</option>
+                  <option value="Espanha">Espanha</option>
+                  <option value="França">França</option>
+                  <option value="Alemanha">Alemanha</option>
+                  <option value="Itália">Itália</option>
+                  <option value="Estados Unidos">Estados Unidos</option>
+                  <option value="Canadá">Canadá</option>
+                  <option value="Japão">Japão</option>
+                  <option value="Coreia do Sul">Coreia do Sul</option>
+                  <option value="Outros">Outros</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="primary-btn" id="startBtn">Iniciar fuga</button>
+          </div>
+
+          <div class="leaderboard-panel">
+            <div>
+              <h3>Recordes</h3>
+              <ul class="leaderboard-list" id="leaderboardList"></ul>
+            </div>
+
+            <div class="phase-box">
+              <h3>Progresso da travessia</h3>
+              <div class="phase-list" id="phaseList"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -350,6 +609,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script>
+    const STORAGE_KEY = 'fronteira_ferro_records_v1';
     const DEFAULT_CONFIG = {
       biomas: [
         { id: 0, nome: 'Centro Urbano em Ruínas', distanciaInicio: 0, distanciaFim: 1500, velocidadeMultiplicador: 1.0, corFundo: '#2a2a3e', obstaculosDisponiveis: ['barricada', 'concreto', 'estaca'] },
@@ -387,7 +647,13 @@
       lastTimestamp: 0,
       worldSpeed: 0.15,
       audioCtx: null,
-      audioEnabled: false
+      audioEnabled: false,
+      currentPlayer: null,
+      musicTimer: null,
+      musicStep: 0,
+      musicOn: false,
+      lastCheckpoint: 0,
+      unlockedStages: 1
     };
 
     const world = {
@@ -405,6 +671,148 @@
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
+    }
+
+    function readLeaderboard() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { records: [], players: {} };
+        return JSON.parse(raw);
+      } catch {
+        return { records: [], players: {} };
+      }
+    }
+
+    function saveLeaderboard(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function renderLeaderboard() {
+      const data = readLeaderboard();
+      const list = document.getElementById('leaderboardList');
+      const records = (data.records || []).slice(0, 5);
+      list.innerHTML = records.length ? '' : '<li class="leaderboard-item"><span class="rank">-</span><span class="player-meta"><span class="player-name">Ainda sem registros</span><span class="player-country">Primeiro corredor</span></span><span class="score-pill">0</span></li>';
+      records.forEach((entry, index) => {
+        const item = document.createElement('li');
+        item.className = 'leaderboard-item';
+        item.innerHTML = `
+          <span class="rank">${index + 1}</span>
+          <span class="player-meta">
+            <span class="player-name">${escapeHtml(entry.name)}</span>
+            <span class="player-country">${escapeHtml(entry.country)}</span>
+          </span>
+          <span class="score-pill">${Math.floor(entry.score)}</span>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function renderPhaseMap() {
+      const data = readLeaderboard();
+      const player = gameState.currentPlayer || data.players && data.players[sessionKeyFromCurrentInput()] || null;
+      const phaseList = document.getElementById('phaseList');
+      const map = document.getElementById('phaseMap');
+      phaseList.innerHTML = '';
+      map.innerHTML = '';
+
+      const unlocked = player ? Math.max(1, player.unlockedStages || 1) : 1;
+      config.biomas.forEach((bioma, index) => {
+        const item = document.createElement('div');
+        const isActive = gameState.currentBiomeIndex === index || (gameState.hasStarted && gameState.distance >= bioma.distanciaInicio && gameState.distance < (bioma.distanciaFim || Infinity));
+        const isDone = index < unlocked - 1 || (player && gameState.distance >= bioma.distanciaFim && index <= player.unlockedStages - 1);
+        const current = index < unlocked ? 'done' : 'locked';
+        item.className = `phase-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`;
+        item.innerHTML = `
+          <span class="phase-dot"></span>
+          <span>${bioma.nome}</span>
+          <span>${Math.floor(bioma.distanciaInicio / 100)}km</span>
+        `;
+        phaseList.appendChild(item.cloneNode(true));
+        map.appendChild(item);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+    }
+
+    function sessionKeyFromCurrentInput() {
+      const name = document.getElementById('playerName').value.trim();
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      return key;
+    }
+
+    function savePlayerProgress() {
+      const data = readLeaderboard();
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
+      player.name = name;
+      player.country = country;
+      player.bestScore = Math.max(player.bestScore || 0, gameState.score || 0);
+      player.bestDistance = Math.max(player.bestDistance || 0, gameState.distance || 0);
+      player.lastDistance = Math.max(player.lastDistance || 0, gameState.distance || 0);
+      const reachedStage = Math.max(1, Math.min(config.biomas.length, 1 + Math.floor((gameState.distance || 0) / 1500)));
+      player.unlockedStages = Math.max(player.unlockedStages || 1, reachedStage);
+      data.players[key] = player;
+      saveLeaderboard(data);
+      renderPhaseMap();
+    }
+
+    function updateRecordList() {
+      const data = readLeaderboard();
+      const records = [...(data.records || [])];
+      const playerName = document.getElementById('playerName').value.trim() || 'Jogador';
+      const playerCountry = document.getElementById('playerCountry').value || 'Brasil';
+      const playerKey = `${playerName.toLowerCase()}|${playerCountry.toLowerCase()}`;
+      const savedPlayer = data.players && data.players[playerKey];
+
+      if (savedPlayer) {
+        const record = { name: savedPlayer.name, country: savedPlayer.country, score: savedPlayer.bestScore || 0, distance: savedPlayer.bestDistance || 0 };
+        if (!records.some(r => r.name === record.name && r.country === record.country)) {
+          records.push(record);
+        } else {
+          const idx = records.findIndex(r => r.name === record.name && r.country === record.country);
+          if (idx >= 0) records[idx] = record;
+        }
+      }
+
+      records.sort((a, b) => (b.score || 0) - (a.score || 0));
+      data.records = records.slice(0, 10);
+      saveLeaderboard(data);
+      renderLeaderboard();
+    }
+
+    function registerCurrentPlayer() {
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const data = readLeaderboard();
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
+      player.name = name;
+      player.country = country;
+      gameState.currentPlayer = player;
+      data.players[key] = player;
+      saveLeaderboard(data);
+      renderLeaderboard();
+      renderPhaseMap();
+    }
+
+    function refreshPhaseMapForCurrentPlayer() {
+      const data = readLeaderboard();
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = (data.players && data.players[key]) || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
+      gameState.currentPlayer = player;
+      renderPhaseMap();
+    }
+
+    function applyLeaderboardToMenu() {
+      renderLeaderboard();
+      renderPhaseMap();
     }
 
     async function loadConfig() {
@@ -456,14 +864,37 @@
       osc.stop(now + duration);
     }
 
-    function sfxPickup() {
-      sfx(620, 0.08, 'triangle', 0.055);
-      sfx(980, 0.1, 'triangle', 0.04);
+    function sfxPickup() { sfx(620, 0.08, 'triangle', 0.055); sfx(980, 0.1, 'triangle', 0.04); }
+    function sfxHit() { sfx(160, 0.15, 'sawtooth', 0.065); sfx(90, 0.2, 'square', 0.05); }
+    function sfxMove() { sfx(240, 0.05, 'square', 0.025); }
+    function sfxJump() { sfx(300, 0.08, 'sine', 0.045); }
+    function sfxSlide() { sfx(140, 0.06, 'square', 0.03); }
+
+    function startMusicLoop() {
+      if (gameState.musicTimer) clearInterval(gameState.musicTimer);
+      gameState.musicOn = true;
+      gameState.musicStep = 0;
+
+      const progression = [220, 330, 262, 392, 330, 440, 392, 330];
+      const finalProgression = [220, 277, 330, 392, 330, 277, 220, 196];
+
+      gameState.musicTimer = setInterval(() => {
+        if (!gameState.hasStarted || gameState.isGameOver) return;
+
+        const currentBiome = getBiomeAtDistance(gameState.distance || 0);
+        const notes = gameState.distance > 7000 ? finalProgression : progression;
+        const root = currentBiome.id < 2 ? notes[gameState.musicStep % notes.length] : notes[(gameState.musicStep + 2) % notes.length];
+        const tone = root * (gameState.distance > 7000 ? 1.2 : 1);
+
+        sfx(tone, 0.24, 'triangle', 0.024);
+        gameState.musicStep += 1;
+      }, 220);
     }
 
-    function sfxHit() {
-      sfx(160, 0.15, 'sawtooth', 0.065);
-      sfx(90, 0.2, 'square', 0.05);
+    function stopMusicLoop() {
+      if (gameState.musicTimer) clearInterval(gameState.musicTimer);
+      gameState.musicOn = false;
+      gameState.musicTimer = null;
     }
 
     function setupScene() {
@@ -543,6 +974,7 @@
 
       createPlayer();
       updateHud();
+      updatePhaseMapForLiveGame();
     }
 
     function createPlayer() {
@@ -550,26 +982,17 @@
 
       const group = new THREE.Group();
 
-      const torso = new THREE.Mesh(
-        new THREE.BoxGeometry(0.8, 1.05, 0.45),
-        new THREE.MeshStandardMaterial({ color: 0xf4d480, metalness: 0.12, roughness: 0.45 })
-      );
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.05, 0.45), new THREE.MeshStandardMaterial({ color: 0xf4d480, metalness: 0.12, roughness: 0.45 }));
       torso.position.y = 1.02;
       torso.castShadow = true;
       group.add(torso);
 
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.28, 20, 20),
-        new THREE.MeshStandardMaterial({ color: 0xf0c29b })
-      );
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 20, 20), new THREE.MeshStandardMaterial({ color: 0xf0c29b }));
       head.position.y = 1.85;
       head.castShadow = true;
       group.add(head);
 
-      const helmet = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.31, 0.31, 0.2, 18),
-        new THREE.MeshStandardMaterial({ color: 0x1d2d3b })
-      );
+      const helmet = new THREE.Mesh(new THREE.CylinderGeometry(0.31, 0.31, 0.2, 18), new THREE.MeshStandardMaterial({ color: 0x1d2d3b }));
       helmet.position.y = 2.05;
       helmet.castShadow = true;
       group.add(helmet);
@@ -599,12 +1022,25 @@
       world.player = group;
     }
 
+    function getBiomeAtDistance(distance) {
+      let resolved = config.biomas[0];
+      for (const biome of config.biomas) {
+        const start = biome.distanciaInicio || 0;
+        const end = biome.distanciaFim || Infinity;
+        if (distance >= start && distance < end) {
+          resolved = biome;
+          break;
+        }
+      }
+      return resolved;
+    }
+
     function updateHud() {
       document.getElementById('scoreValue').textContent = Math.floor(gameState.score);
       document.getElementById('distanceValue').textContent = Math.floor(gameState.distance) + ' m';
       document.getElementById('livesValue').textContent = gameState.lives;
 
-      const biome = config.biomas.find(b => gameState.distance >= b.distanciaInicio && (gameState.distance < b.distanciaFim || Number.isFinite(b.distanciaFim) === false));
+      const biome = getBiomeAtDistance(gameState.distance);
       if (biome) {
         document.getElementById('biomeValue').textContent = biome.nome;
         const color = biome.corFundo || '#2a2a3e';
@@ -613,11 +1049,33 @@
       }
     }
 
+    function updatePhaseMapForLiveGame() {
+      const mapContainer = document.getElementById('phaseMap');
+      mapContainer.innerHTML = '';
+      const unlocked = Math.max(1, Math.min(config.biomas.length, 1 + Math.floor(gameState.distance / 1500)));
+
+      config.biomas.forEach((bioma, index) => {
+        const item = document.createElement('div');
+        const isActive = gameState.currentBiomeIndex === index || (gameState.distance >= bioma.distanciaInicio && gameState.distance < (bioma.distanciaFim || Infinity));
+        const isDone = index < unlocked - 1;
+        item.className = `phase-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`;
+        item.innerHTML = `
+          <span class="phase-dot"></span>
+          <span>${bioma.nome}</span>
+          <span>${Math.floor(bioma.distanciaInicio / 100)}km</span>
+        `;
+        mapContainer.appendChild(item);
+      });
+    }
+
     function startGame() {
       if (gameState.hasStarted || gameState.isGameOver) return;
       gameState.hasStarted = true;
       document.getElementById('startCard').classList.add('hidden');
       initAudio();
+      startMusicLoop();
+      registerCurrentPlayer();
+      refreshPhaseMapForCurrentPlayer();
     }
 
     function restartGame() {
@@ -636,20 +1094,23 @@
       gameState.pickupTimer = 0;
       gameState.isGameOver = false;
       gameState.hasStarted = true;
+      gameState.lastCheckpoint = 0;
       document.getElementById('gameoverPanel').classList.remove('active');
       document.getElementById('startCard').classList.add('hidden');
+      initAudio();
+      startMusicLoop();
       updateHud();
+      renderPhaseMap();
 
       for (const obs of world.obstacles) world.scene.remove(obs.mesh);
       for (const p of world.pickups) world.scene.remove(p.mesh);
       world.obstacles = [];
       world.pickups = [];
-
       createPlayer();
     }
 
     function spawnObstacle() {
-      const biome = config.biomas[gameState.currentBiomeIndex] || config.biomas[0];
+      const biome = getBiomeAtDistance(gameState.distance);
       const choices = biome.obstaculosDisponiveis || ['barricada', 'concreto'];
       const kind = choices[Math.floor(Math.random() * choices.length)];
       const lane = Math.floor(Math.random() * 3);
@@ -683,7 +1144,6 @@
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       world.scene.add(mesh);
-
       world.obstacles.push({ mesh, type: kind, z, lane });
     }
 
@@ -714,17 +1174,47 @@
       world.pickups.push({ mesh, type, value: values[type], z });
     }
 
-    function getBiomeAtDistance(distance) {
-      let resolved = config.biomas[0];
-      for (const biome of config.biomas) {
-        const start = biome.distanciaInicio || 0;
-        const end = biome.distanciaFim || Infinity;
-        if (distance >= start && distance < end) {
-          resolved = biome;
-          break;
-        }
-      }
-      return resolved;
+    function saveRuntimeProgress() {
+      const data = readLeaderboard();
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
+      player.name = name;
+      player.country = country;
+      player.lastDistance = Math.max(player.lastDistance || 0, gameState.distance || 0);
+      player.bestScore = Math.max(player.bestScore || 0, gameState.score || 0);
+      player.bestDistance = Math.max(player.bestDistance || 0, gameState.distance || 0);
+      const currentStage = Math.max(1, Math.min(config.biomas.length, 1 + Math.floor((gameState.distance || 0) / 1500)));
+      player.unlockedStages = Math.max(player.unlockedStages || 1, currentStage);
+      data.players[key] = player;
+      saveLeaderboard(data);
+      renderPhaseMap();
+      renderLeaderboard();
+    }
+
+    function completeRun() {
+      const data = readLeaderboard();
+      const name = document.getElementById('playerName').value.trim() || 'Jogador';
+      const country = document.getElementById('playerCountry').value || 'Brasil';
+      const key = `${name.toLowerCase()}|${country.toLowerCase()}`;
+      const player = data.players[key] || { name, country, bestScore: 0, bestDistance: 0, unlockedStages: 1, lastDistance: 0 };
+      player.name = name;
+      player.country = country;
+      player.bestScore = Math.max(player.bestScore || 0, gameState.score || 0);
+      player.bestDistance = Math.max(player.bestDistance || 0, gameState.distance || 0);
+      player.unlockedStages = Math.max(player.unlockedStages || 1, config.biomas.length);
+      data.players[key] = player;
+
+      const record = { name, country, score: player.bestScore, distance: player.bestDistance };
+      const records = [...(data.records || [])];
+      const idx = records.findIndex(r => r.name === name && r.country === country);
+      if (idx >= 0) records[idx] = record; else records.push(record);
+      records.sort((a, b) => (b.score || 0) - (a.score || 0));
+      data.records = records.slice(0, 10);
+      saveLeaderboard(data);
+      renderLeaderboard();
+      renderPhaseMap();
     }
 
     function updateWorld(delta) {
@@ -742,6 +1232,11 @@
 
       gameState.worldSpeed = gameState.currentSpeed * biomeMult;
       gameState.distance += gameState.worldSpeed * delta * 200;
+
+      if (gameState.distance > 0 && Math.floor(gameState.distance / 1500) !== gameState.lastCheckpoint) {
+        gameState.lastCheckpoint = Math.floor(gameState.distance / 1500);
+        saveRuntimeProgress();
+      }
 
       const gravity = config.configuracoes.gravidade || 0.008;
       gameState.verticalVelocity -= gravity * delta * 60;
@@ -820,6 +1315,7 @@
 
       gameState.invulnerable = Math.max(0, gameState.invulnerable - delta);
       updateHud();
+      updatePhaseMapForLiveGame();
     }
 
     function handleCollisions() {
@@ -863,8 +1359,10 @@
 
       if (gameState.lives <= 0) {
         gameState.isGameOver = true;
+        completeRun();
         document.getElementById('resultText').textContent = `Pontuação final: ${Math.floor(gameState.score)} • Distância: ${Math.floor(gameState.distance)} m`;
         document.getElementById('gameoverPanel').classList.add('active');
+        stopMusicLoop();
       }
     }
 
@@ -874,7 +1372,7 @@
       gameState.verticalVelocity = config.configuracoes.saltoForce || 0.18;
       gameState.grounded = false;
       gameState.sliding = false;
-      sfx(300, 0.08, 'sine', 0.045);
+      sfxJump();
     }
 
     function slide() {
@@ -882,11 +1380,15 @@
       if (gameState.isGameOver || !gameState.grounded) return;
       gameState.sliding = true;
       setTimeout(() => { gameState.sliding = false; }, 560);
-      sfx(140, 0.06, 'square', 0.03);
+      sfxSlide();
     }
 
     function setLane(value) {
-      gameState.playerLane = clamp(value, 0, 2);
+      const next = clamp(value, 0, 2);
+      if (next !== gameState.playerLane) {
+        gameState.playerLane = next;
+        sfxMove();
+      }
     }
 
     document.addEventListener('keydown', (event) => {
@@ -904,6 +1406,20 @@
     document.getElementById('jumpBtn').addEventListener('click', jump);
     document.getElementById('slideBtn').addEventListener('click', slide);
     document.getElementById('restartBtn').addEventListener('click', restartGame);
+    document.getElementById('startBtn').addEventListener('click', () => {
+      registerCurrentPlayer();
+      startGame();
+    });
+
+    document.getElementById('playerName').addEventListener('input', () => {
+      registerCurrentPlayer();
+      refreshPhaseMapForCurrentPlayer();
+    });
+
+    document.getElementById('playerCountry').addEventListener('change', () => {
+      registerCurrentPlayer();
+      refreshPhaseMapForCurrentPlayer();
+    });
 
     document.addEventListener('pointerdown', () => {
       if (!gameState.hasStarted && !gameState.isGameOver) startGame();
@@ -931,6 +1447,7 @@
     async function init() {
       await loadConfig();
       setupScene();
+      applyLeaderboardToMenu();
       updateHud();
       requestAnimationFrame(tick);
     }
