@@ -362,11 +362,11 @@
     
     const DEFAULT_CONFIG = {
       biomas: [
-        { id: 0, nome: 'Centro Urbano em Ruínas', distanciaInicio: 0, distanciaFim: 1500, velocidadeMultiplicador: 1.0, corFundo: '#2a2a3e' },
-        { id: 1, nome: 'Favela em Conflito', distanciaInicio: 1500, distanciaFim: 3500, velocidadeMultiplicador: 1.15, corFundo: '#3d2817' },
-        { id: 2, nome: 'Fronteira Gelada', distanciaInicio: 3500, distanciaFim: 5500, velocidadeMultiplicador: 1.3, corFundo: '#1a3a52' },
-        { id: 3, nome: 'Trincheiras de Guerra', distanciaInicio: 5500, distanciaFim: 7500, velocidadeMultiplicador: 1.45, corFundo: '#1a1a1a' },
-        { id: 4, nome: 'Deserto de Esperança', distanciaInicio: 7500, distanciaFim: Infinity, velocidadeMultiplicador: 1.6, corFundo: '#d4a574' }
+        { id: 0, nome: 'Centro Urbano em Ruínas', distanciaInicio: 0, distanciaFim: 1500, velocidadeMultiplicador: 1.0 },
+        { id: 1, nome: 'Favela em Conflito', distanciaInicio: 1500, distanciaFim: 3500, velocidadeMultiplicador: 1.15 },
+        { id: 2, nome: 'Fronteira Gelada', distanciaInicio: 3500, distanciaFim: 5500, velocidadeMultiplicador: 1.3 },
+        { id: 3, nome: 'Trincheiras de Guerra', distanciaInicio: 5500, distanciaFim: 7500, velocidadeMultiplicador: 1.45 },
+        { id: 4, nome: 'Deserto de Esperança', distanciaInicio: 7500, distanciaFim: Infinity, velocidadeMultiplicador: 1.6 }
       ],
       configuracoes: {
         vidasIniciais: 3,
@@ -393,7 +393,6 @@
       grounded: true,
       sliding: false,
       currentSpeed: 0.15,
-      worldSpeed: 0.15,
       worldTime: 0,
       spawnTimer: 0,
       animationId: null
@@ -404,7 +403,6 @@
       camera: null,
       renderer: null,
       player: null,
-      buildings: [],
       obstacles: [],
       pickups: [],
       playerParts: {}
@@ -421,23 +419,6 @@
         }
       }
       return config.biomas[config.biomas.length - 1];
-    }
-
-    function readLeaderboard() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : { records: [], players: {} };
-      } catch {
-        return { records: [], players: {} };
-      }
-    }
-
-    function saveLeaderboard(data) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      } catch (e) {
-        console.warn('Falha ao salvar leaderboard:', e);
-      }
     }
 
     function renderPhaseMap() {
@@ -493,10 +474,10 @@
 
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(0x4a7fb5);
-      scene.fog = new THREE.Fog(0x3a6a9d, 20, 80);
+      scene.fog = new THREE.Fog(0x3a6a9d, 25, 100);
 
       const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 200);
-      camera.position.set(0, 4, 7.5);
+      camera.position.set(0, 3.5, 8);
       camera.lookAt(0, 1.2, -20);
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
@@ -506,10 +487,10 @@
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       root.appendChild(renderer.domElement);
 
-      const ambientLight = new THREE.HemisphereLight(0xd0e8ff, 0x2d4a75, 1.2);
+      const ambientLight = new THREE.HemisphereLight(0xd0e8ff, 0x2d4a75, 1.3);
       scene.add(ambientLight);
 
-      const directionalLight = new THREE.DirectionalLight(0xfef5e7, 1.5);
+      const directionalLight = new THREE.DirectionalLight(0xfef5e7, 1.6);
       directionalLight.position.set(8, 12, 5);
       directionalLight.castShadow = true;
       directionalLight.shadow.mapSize.width = 2048;
@@ -519,7 +500,7 @@
 
       // Ground
       const ground = new THREE.Mesh(
-        new THREE.PlaneGeometry(15, 200),
+        new THREE.PlaneGeometry(16, 300),
         new THREE.MeshStandardMaterial({ color: 0x3a5a7f, roughness: 0.7 })
       );
       ground.rotation.x = -Math.PI / 2;
@@ -529,19 +510,20 @@
 
       // Road
       const road = new THREE.Mesh(
-        new THREE.PlaneGeometry(8, 200),
+        new THREE.PlaneGeometry(8.5, 300),
         new THREE.MeshStandardMaterial({ color: 0x2a4a65, roughness: 0.8 })
       );
       road.rotation.x = -Math.PI / 2;
       road.position.y = 0.01;
+      road.receiveShadow = true;
       scene.add(road);
 
       // Lane lines
       const lineGeometry = new THREE.BufferGeometry();
       for (let i = 0; i < 3; i++) {
         const points = [
-          new THREE.Vector3(lanePositions[i], 0.05, -100),
-          new THREE.Vector3(lanePositions[i], 0.05, 100)
+          new THREE.Vector3(lanePositions[i], 0.05, 100),
+          new THREE.Vector3(lanePositions[i], 0.05, -200)
         ];
         lineGeometry.setFromPoints(points);
         const line = new THREE.Line(
@@ -552,7 +534,7 @@
       }
 
       // Sky
-      const skyGeometry = new THREE.SphereGeometry(150, 32, 32);
+      const skyGeometry = new THREE.SphereGeometry(200, 32, 32);
       const skyMaterial = new THREE.MeshBasicMaterial({
         color: 0x5a8cc5,
         side: THREE.BackSide
@@ -560,8 +542,8 @@
       const sky = new THREE.Mesh(skyGeometry, skyMaterial);
       scene.add(sky);
 
-      // Buildings
-      for (let i = 0; i < 12; i++) {
+      // Building Blocks
+      for (let i = 0; i < 8; i++) {
         const w = 1.5 + Math.random() * 2;
         const h = 4 + Math.random() * 8;
         const d = 1.5 + Math.random() * 2;
@@ -592,59 +574,113 @@
       const group = new THREE.Group();
       group.position.set(0, 0, 3);
 
-      // Torso
-      const torso = new THREE.Mesh(
-        new THREE.BoxGeometry(0.7, 1, 0.4),
-        new THREE.MeshStandardMaterial({ color: 0xf4b183 })
-      );
-      torso.position.y = 1;
-      torso.castShadow = true;
-      group.add(torso);
-
-      // Head
+      // ====== HEAD ======
       const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.28, 16, 16),
-        new THREE.MeshStandardMaterial({ color: 0xedb5a6 })
+        new THREE.SphereGeometry(0.25, 16, 16),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
       );
-      head.position.y = 1.85;
+      head.position.y = 1.95;
       head.castShadow = true;
       group.add(head);
 
       // Eyes
-      const eyeGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+      const eyeGeometry = new THREE.SphereGeometry(0.07, 8, 8);
       const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
       const eyeL = new THREE.Mesh(eyeGeometry, eyeMaterial);
-      eyeL.position.set(-0.1, 1.95, 0.24);
+      eyeL.position.set(-0.08, 2.02, 0.22);
       group.add(eyeL);
       const eyeR = new THREE.Mesh(eyeGeometry, eyeMaterial);
-      eyeR.position.set(0.1, 1.95, 0.24);
+      eyeR.position.set(0.08, 2.02, 0.22);
       group.add(eyeR);
 
-      // Arms
-      const armGeometry = new THREE.BoxGeometry(0.15, 0.8, 0.15);
-      const armMaterial = new THREE.MeshStandardMaterial({ color: 0xf4b183 });
-      const armL = new THREE.Mesh(armGeometry, armMaterial);
-      armL.position.set(-0.5, 1.1, 0);
+      // ====== BODY ======
+      // Torso (pele)
+      const torso = new THREE.Mesh(
+        new THREE.BoxGeometry(0.6, 0.8, 0.35),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
+      );
+      torso.position.y = 1.2;
+      torso.castShadow = true;
+      group.add(torso);
+
+      // Camiseta larga azul/verde
+      const shirt = new THREE.Mesh(
+        new THREE.BoxGeometry(0.75, 0.95, 0.4),
+        new THREE.MeshStandardMaterial({ color: 0x2d5a3d })
+      );
+      shirt.position.y = 1.1;
+      shirt.position.z = 0.05;
+      shirt.castShadow = true;
+      group.add(shirt);
+
+      // Texto "Rodrigo" na camiseta
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffd76a';
+      ctx.font = 'bold 48px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Rodrigo', 128, 64);
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      const shirtMaterial = new THREE.MeshStandardMaterial({ map: texture, color: 0x2d5a3d });
+      const shirtFront = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.73, 0.93),
+        shirtMaterial
+      );
+      shirtFront.position.set(0, 1.1, 0.225);
+      group.add(shirtFront);
+
+      // ====== BRAÇOS ======
+      // Braço esquerdo
+      const armL = new THREE.Mesh(
+        new THREE.BoxGeometry(0.14, 0.85, 0.14),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
+      );
+      armL.position.set(-0.45, 1.2, 0);
       armL.castShadow = true;
       group.add(armL);
-      const armR = new THREE.Mesh(armGeometry, armMaterial);
-      armR.position.set(0.5, 1.1, 0);
+
+      // Braço direito
+      const armR = new THREE.Mesh(
+        new THREE.BoxGeometry(0.14, 0.85, 0.14),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
+      );
+      armR.position.set(0.45, 1.2, 0);
       armR.castShadow = true;
       group.add(armR);
 
-      // Legs
-      const legGeometry = new THREE.BoxGeometry(0.16, 0.8, 0.16);
-      const legMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
-      const legL = new THREE.Mesh(legGeometry, legMaterial);
-      legL.position.set(-0.2, 0.4, 0);
+      // ====== SHORTS ======
+      const shorts = new THREE.Mesh(
+        new THREE.BoxGeometry(0.68, 0.55, 0.38),
+        new THREE.MeshStandardMaterial({ color: 0x4a3f35 })
+      );
+      shorts.position.y = 0.62;
+      shorts.castShadow = true;
+      group.add(shorts);
+
+      // ====== PERNAS ======
+      // Perna esquerda
+      const legL = new THREE.Mesh(
+        new THREE.BoxGeometry(0.16, 0.85, 0.16),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
+      );
+      legL.position.set(-0.2, 0.35, 0);
       legL.castShadow = true;
       group.add(legL);
-      const legR = new THREE.Mesh(legGeometry, legMaterial);
-      legR.position.set(0.2, 0.4, 0);
+
+      // Perna direita
+      const legR = new THREE.Mesh(
+        new THREE.BoxGeometry(0.16, 0.85, 0.16),
+        new THREE.MeshStandardMaterial({ color: 0xf0b5a0 })
+      );
+      legR.position.set(0.2, 0.35, 0);
       legR.castShadow = true;
       group.add(legR);
 
-      world.playerParts = { torso, armL, armR, legL, legR };
+      world.playerParts = { armL, armR, legL, legR, shirt, shorts };
       world.scene.add(group);
       world.player = group;
     }
@@ -652,33 +688,27 @@
     function updatePlayerAnimation() {
       if (!world.player) return;
 
-      const time = state.worldTime * 0.02;
-      const runSpeed = 12;
-      
-      // Pernas alternando
-      world.playerParts.legL.rotation.x = Math.sin(time * runSpeed) * 0.8;
-      world.playerParts.legR.rotation.x = Math.sin(time * runSpeed + Math.PI) * 0.8;
-      
-      // Braços alternando com as pernas
-      world.playerParts.armL.rotation.x = Math.sin(time * runSpeed + Math.PI) * 0.6;
-      world.playerParts.armR.rotation.x = Math.sin(time * runSpeed) * 0.6;
-      
-      // Movimento lateral suave
       const targetX = lanePositions[state.playerLane];
-      world.player.position.x += (targetX - world.player.position.x) * 0.15;
+      world.player.position.x += (targetX - world.player.position.x) * 0.12;
       
-      // Bob do corpo
-      world.player.position.y = state.playerY + Math.sin(time * runSpeed) * 0.08;
-      
-      // Inclinação ao se mover lateralmente
-      world.player.rotation.z = (targetX - world.player.position.x) * 0.15;
+      // Movimento vertical com pulo
+      world.player.position.y = state.playerY;
 
+      // Pernas correm suavemente sem tremer
+      const legSpeed = 8;
+      const legAngle = Math.sin(state.worldTime * 0.02 * legSpeed) * 0.4;
+      world.playerParts.legL.rotation.x = legAngle;
+      world.playerParts.legR.rotation.x = -legAngle;
+
+      // Braços acompanham as pernas
+      world.playerParts.armL.rotation.x = -legAngle * 0.6;
+      world.playerParts.armR.rotation.x = legAngle * 0.6;
+
+      // Slide
       if (state.sliding) {
-        world.playerParts.torso.rotation.x = 0.7;
-        world.playerParts.legL.rotation.x = 0.3;
-        world.playerParts.legR.rotation.x = 0.3;
+        world.playerParts.shirt.position.y = 0.85;
       } else {
-        world.playerParts.torso.rotation.x = 0;
+        world.playerParts.shirt.position.y = 1.1;
       }
     }
 
@@ -708,25 +738,26 @@
 
     function createObstacle() {
       const mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(0.9, 1.1, 0.9),
-        new THREE.MeshStandardMaterial({ color: 0xc85450 })
+        new THREE.BoxGeometry(0.9, 1.3, 0.8),
+        new THREE.MeshStandardMaterial({ color: 0xd94a4a })
       );
-      mesh.position.set(lanePositions[Math.floor(Math.random() * 3)], 0.55, -65);
+      mesh.position.set(lanePositions[Math.floor(Math.random() * 3)], 0.65, -60);
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       world.scene.add(mesh);
-      world.obstacles.push(mesh);
+      world.obstacles.push({ mesh, z: mesh.position.z });
     }
 
     function createPickup() {
       const mesh = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.3, 1),
+        new THREE.OctahedronGeometry(0.32, 2),
         new THREE.MeshStandardMaterial({ color: 0xffd76a, emissive: 0x8a6f00 })
       );
-      mesh.position.set(lanePositions[Math.floor(Math.random() * 3)], 1.3, -65);
+      mesh.position.set(lanePositions[Math.floor(Math.random() * 3)], 1.5, -60);
       mesh.castShadow = true;
+      mesh.receiveShadow = true;
       world.scene.add(mesh);
-      world.pickups.push(mesh);
+      world.pickups.push({ mesh, z: mesh.position.z });
     }
 
     function gameOver() {
@@ -753,8 +784,8 @@
       state.spawnTimer = 0;
 
       // Remover obstáculos e pickups
-      world.obstacles.forEach(o => world.scene.remove(o));
-      world.pickups.forEach(p => world.scene.remove(p));
+      world.obstacles.forEach(o => world.scene.remove(o.mesh));
+      world.pickups.forEach(p => world.scene.remove(p.mesh));
       world.obstacles = [];
       world.pickups = [];
 
@@ -791,30 +822,30 @@
       updateHud();
       renderPhaseMap();
 
-      // Spawn
-      if (state.spawnTimer > 900) {
+      // Spawn obstáculos e pickups
+      if (state.spawnTimer > 1200) {
         state.spawnTimer = 0;
-        if (Math.random() > 0.3) createObstacle();
-        if (Math.random() > 0.55) createPickup();
+        if (Math.random() > 0.35) createObstacle();
+        if (Math.random() > 0.6) createPickup();
       }
 
       // Update obstacles
       for (let i = world.obstacles.length - 1; i >= 0; i--) {
         const obs = world.obstacles[i];
-        obs.position.z += 0.5 * dt * state.currentSpeed;
-        obs.rotation.y += 0.02;
+        obs.mesh.position.z += state.currentSpeed * dt * 10;
+        obs.mesh.rotation.y += 0.02;
 
-        if (obs.position.z > 8) {
-          world.scene.remove(obs);
+        if (obs.mesh.position.z > 10) {
+          world.scene.remove(obs.mesh);
           world.obstacles.splice(i, 1);
           continue;
         }
 
-        const dx = Math.abs(obs.position.x - world.player.position.x);
-        const dz = Math.abs(obs.position.z - world.player.position.z);
-        if (dx < 0.95 && dz < 1.3 && world.player.position.y < 1.1) {
+        const dx = Math.abs(obs.mesh.position.x - world.player.position.x);
+        const dz = Math.abs(obs.mesh.position.z - world.player.position.z);
+        if (dx < 0.95 && dz < 1.3 && world.player.position.y < 1.2) {
           state.lives--;
-          world.scene.remove(obs);
+          world.scene.remove(obs.mesh);
           world.obstacles.splice(i, 1);
           if (state.lives <= 0) {
             gameOver();
@@ -827,21 +858,21 @@
       // Update pickups
       for (let i = world.pickups.length - 1; i >= 0; i--) {
         const pickup = world.pickups[i];
-        pickup.position.z += 0.5 * dt * state.currentSpeed;
-        pickup.rotation.y += 0.15;
-        pickup.position.y += Math.sin(state.worldTime * 0.005 + i) * 0.01;
+        pickup.mesh.position.z += state.currentSpeed * dt * 10;
+        pickup.mesh.rotation.y += 0.15;
+        pickup.mesh.position.y += Math.sin(state.worldTime * 0.005 + i) * 0.008;
 
-        if (pickup.position.z > 8) {
-          world.scene.remove(pickup);
+        if (pickup.mesh.position.z > 10) {
+          world.scene.remove(pickup.mesh);
           world.pickups.splice(i, 1);
           continue;
         }
 
-        const dx = Math.abs(pickup.position.x - world.player.position.x);
-        const dz = Math.abs(pickup.position.z - world.player.position.z);
+        const dx = Math.abs(pickup.mesh.position.x - world.player.position.x);
+        const dz = Math.abs(pickup.mesh.position.z - world.player.position.z);
         if (dx < 0.95 && dz < 1.2) {
           state.score += 50;
-          world.scene.remove(pickup);
+          world.scene.remove(pickup.mesh);
           world.pickups.splice(i, 1);
         }
       }
